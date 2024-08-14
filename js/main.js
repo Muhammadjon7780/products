@@ -37,7 +37,7 @@ for (let i = 0; i < products.length; i++) {
   const productItem = createElement("li", "col-4");
   const productCard = createElement("div", "card");
   productItem.append(productCard)
-
+ 
   const productImg = createElement("img", "card-img-top");
   productImg.src = currentProducts.img;
   productCard.append(productImg);

@@ -57,7 +57,7 @@ for (let i = 0; i < products.length; i++) {
   const productBadge = createElement("p", "badge bg-success", currentProducts.model);
 
   const productDate = createElement("p", "card-text", showDate((currentProducts.addedDate)));
-  console.log(showDate(currentProducts.addedDate));
+  // console.log(showDate(currentProducts.addedDate));
   
   
   

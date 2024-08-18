@@ -104,7 +104,10 @@
     </div>
   </div>
 
-  <div class="modal fade" id="edit-student-modal" tabindex="-1" aria-labelledby="editStudentModalLabel" aria-hidden="true">
+
+  <!-- //MODAL -->
+
+  <div class="modal fade add-modal" id="edit-student-modal" tabindex="-1" aria-labelledby="editStudentModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -112,10 +115,10 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form>
+          <form id="add-form">
             <div class="mb-3">
               <label for="product-title" class="form-label">Title</label>
-              <input type="text" class="form-control" id="product-title" placeholder="Falon telefon">
+              <input type="text" class="form-control" id="title" placeholder="Falon telefon">
             </div>
             <div class="mb-3">
               <label for="price" class="form-label">Narxi</label>
@@ -123,7 +126,7 @@
             </div>
             <div class="mb-3">
               <label for="product-manufacturer" class="form-label">Manufacturer</label>
-              <select class="form-select" id="product-manufacturer">
+              <select class="form-select" id="addManufacturer">
                 <option selected disabled value="0">Select a manufacturer</option>
                 <!-- manufacturers array bu yerga kelishi kerak -->
               </select>
@@ -131,16 +134,21 @@
 
             <div class="mb-3">
               <label for="benefits" class="form-label">Benefits</label>
-              <input type="text" class="form-control" id="benefits" placeholder="150">
+              <input type="text" class="form-control modal-benefits_input" id="benefits" placeholder="16gb ram">
 
-              <ul class="d-flex flex-wrap list-unstyled mt-3">
-                <li class="me-1 mb-1"><button type="button" class="btn btn-sm badge rounded-pill btn-danger">8gb</button></li>
+              <ul class="d-flex flex-wrap list-unstyled mt-3" id="benefits-modal_list">
+                <!-- <li id="benefits-modal_item" class="me-1 mb-1">
+                  <button type="button" class="btn btn-sm badge rounded-pill btn-danger" id="benefits-modal_btn"></button>
+                </li>
 
-                <li class="me-1 mb-1"><button type="button" class="btn btn-sm badge rounded-pill btn-danger">128gb</button></li>
+                <li id="benefits-modal_item" class="me-1 mb-1"><button type="button" class="btn btn-sm badge rounded-pill btn-danger" id="benefits-modal_btn"></button>
+                </li>
 
-                <li class="me-1 mb-1"><button type="button" class="btn btn-sm badge rounded-pill btn-danger">Waterproof</button></li>
+                <li id="benefits-modal_item" class="me-1 mb-1"><button type="button" class="btn btn-sm badge rounded-pill btn-danger" id="benefits-modal_btn"></button>
+                </li>
 
-                <li class="me-1 mb-1"><button type="button" class="btn btn-sm badge rounded-pill btn-danger">Falon yaxshi tarafi</button></li>
+                <li id="benefits-modal_item" class="me-1 mb-1"><button type="button" class="btn btn-sm badge rounded-pill btn-danger" id="benefits-modal_btn"></button>
+                </li> -->
               </ul>
             </div>
             <button type="submit" class="btn btn-primary d-block w-100 p-2">Add product</button>

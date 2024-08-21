@@ -1,5 +1,7 @@
+const elSection = document.querySelector("#section")
 const elCardList = document.querySelector("#card-list")
-const elManfactureSelect = document.querySelector("#addManufacturer")
+const elAddManfactureSelect = document.querySelector("#addManufacturer")
+const elEditManfactureSelect = document.querySelector("#editManufacturer");
 
 
 
@@ -30,14 +32,18 @@ const  showDate = function (dateString) {
   return `${addZero(date.getDate())}.${addZero(date.getMonth() + 1)}.${addZero(date.getFullYear())}`;
 }
        
+const renderCurrentProducts = function () {
+  products.forEach(currentProducts => {
+    renderProduct(currentProducts);
+  });
+}
 
 
 const renderProduct = function (addProduct) {
-    
-const {title, img, price, model, addedDate, benefits} = addProduct
+  
+const {id, title, img, price, model, addedDate, benefits} = addProduct;
 
 const productItem = createElement("li", "col-4");
-
 const productCard = createElement("div", "card");
 productItem.append(productCard)
 
@@ -63,27 +69,25 @@ const productBadge = createElement("p", "badge bg-success", model);
 const productDate = createElement("p", "card-text", showDate((addedDate)));
 
 const productBtnWrap = createElement("div", "position-absolute top-0 end-0 d-flex");
+
 const productEditBtn = createElement("button", "btn rounded-0 btn-secondary");
+productEditBtn.setAttribute("data-bs-toggle", "modal");
+productEditBtn.setAttribute("data-bs-target", "#edit-student-modal")
 const productEditBtnIcon = createElement("i", "fa-solid fa-pen");
+productEditBtnIcon.style.pointerEvents = "none"
+productEditBtn.setAttribute("data-id", id);
+
 productEditBtn.append(productEditBtnIcon);
 productBtnWrap.append(productEditBtn);
 
 const productDelBtn = createElement("button", "btn rounded-0 btn-danger");
 const productDelBtnIcon = createElement("i", "fa-solid fa-trash");
+productDelBtnIcon.style.pointerEvents = "none"
+
+productDelBtn.setAttribute("data-id", id);
+
 productDelBtn.append(productDelBtnIcon);
 productBtnWrap.append(productDelBtn);
-
-productCardBody.append(productBtnWrap);
-
-
-productCard.append(productCardBody);
-
-productItem.append(productCard);
-
-elCardList.append(productItem);
-
-
-
 
 const productBenefitList = createElement("ul", "d-flex flex-wrap list-unstyled mt-3");
 const innerBenefits = benefits;
@@ -99,34 +103,173 @@ for (let i = 0; i < innerBenefits.length; i++) {
 
 childrenAppend(productCardBody, [productTitle, productSalePrice, productOldPrice, productBadge, productDate, productBenefitList]);
 
+productCardBody.append(productBtnWrap);
+
+productCard.append(productCardBody);
+
+productItem.append(productCard);
+
+elCardList.append(productItem);
+
 return productItem;
 } 
 
+//_____________________EDIT MODAL__________________________________________________
 
-for (let i = 0; i < products.length; i++) {
+const elEditInputTitle = document.querySelector("#edit-title");
+const elEditInputPrice = document.querySelector("#edit-price");
+const elEditInputBenefits = document.querySelector("#edit-benefits");
+
+const elEditModal = document.querySelector(".edit-modal");
+const editModal = new bootstrap.Modal(elEditModal);
+
+const elEditForm = document.querySelector("#edit-form");
+
+elCardList.addEventListener("click", function (evt) {
+
+  if (evt.target.matches(".btn-danger")) {
+    
+    const clickedItemId = +evt.target.dataset.id;
+    
+    
+    const clickedItemIndex = products.findIndex(function(product) {
+      
+      return product.id == clickedItemId
+    })
+    
+
+    products.splice(clickedItemIndex, 1)
+    
+    elCardList.innerHTML = "";
+    
+    renderCurrentProducts()
+    
+  }
+  else if (evt.target.matches(".btn-secondary")) {
+    
+    
+    const clickedId = +evt.target.dataset.id;
+    
+    const clickedItem = products.find(function(product) {
+      
+      return product.id == clickedId
+    })
+    elEditForm.setAttribute("data-editing-id", clickedItem.id);
+    
+    const clickedEditIndex = products.findIndex(function(editProduct) {
+      return editProduct.id == clickedId
+    })
+    
+    productIdex.push(clickedEditIndex); 
+
+    elEditInputTitle.value = clickedItem.title 
+    elEditInputPrice.value = clickedItem.price;
+    elEditInputBenefits.value = clickedItem.benefits;
+   
+    //////////EDIT Manfactures///////////////////////
+    elEditManfactureSelect.innerHTML = null
+    
+    for (let i = 0; i < manufacturers.length; i++) {
+      
+      const currentManfactures = manufacturers[i];
+      
+      const manfacturesOptions = createElement("option", "", currentManfactures.name);
+      
+      manfacturesOptions.value = currentManfactures.id
+      elEditManfactureSelect.append(manfacturesOptions);
+
+      let editOptions = elEditManfactureSelect.options
   
-  const currentProducts = products[i];
-  renderProduct(currentProducts);
+      for (let i = 0; i < editOptions.length; i++) {
+  
+        const editelement = editOptions[i];
+  
+        if (editelement.textContent == clickedItem.model) {
 
-}
+          editelement.setAttribute("selected","")
+          
+        }
+        }
+      }  
+      }
+      
+    })  
+    
+    
+//______________________EDIT FORM________________________________________________________________
+
+    elEditForm.addEventListener("submit", function (evt) {
+      evt.preventDefault();
+      
+      const clickedEditId = evt.target.dataset.editingId
+
+      const choosedOption = evt.target.elements;
+      const editOptionInput = +choosedOption.editManufacturer.value
+
+      const editTitleValue = elEditInputTitle.value;
+      const editPriceValue = +elEditInputPrice.value;
+      const editBenefitsValue = elEditInputBenefits.value.split(",").map(item => item.trim()).filter(item => item.length > 0);
+      
+      if (elEditInputTitle.value.trim() && elEditInputPrice.value.trim()) {
+
+      manufacturers.forEach(element => {
+        
+        if (editOptionInput == element.id) {
+          
+          const editProduct = {
+            id: clickedEditId,
+            title: editTitleValue,
+            img: "../img/iphone-ez.jpg",
+            price: editPriceValue,
+            model: element.name,
+            addedDate: new Date().toISOString(),
+            benefits: editBenefitsValue
+          }
+          
+          const editItemIndex = products.findIndex(function (editingProduct) {
+            return editingProduct.id == clickedEditId
+          })
+      
+          products.splice(editItemIndex, 1, editProduct);
+
+          elCardList.innerHTML = null;
+        
+          renderCurrentProducts();
+          }
+        });
+        
+        elAddBenefitList.innerHTML = null
+        productIdex = [];
+        editModal.hide();
+      }
+        
+      })
+   
+    
+    renderCurrentProducts()
+    
+    
+    
 
 
-//////////Manfactures///////////////////////
+
+
+//////////ADD Manfactures///////////////////////
   for (let i = 0; i < manufacturers.length; i++) {
     const currentManfactures = manufacturers[i];
     
     const manfacturesOption = createElement("option", "", currentManfactures.name)
     manfacturesOption.value = currentManfactures.id
-    elManfactureSelect.append(manfacturesOption)
+    elAddManfactureSelect.append(manfacturesOption)
   }
 
-  //___________________________MODAL_______________
-
- 
 
 
+
+
+
+  //__________________ADD MODAL___________________________________________________________________________________________
    const elAddForm = document.querySelector("#add-form");
-
    const elAddProductModal = document.querySelector(".add-modal");
    const addProductModal = new bootstrap.Modal(elAddProductModal);
 
@@ -134,7 +277,7 @@ for (let i = 0; i < products.length; i++) {
    const elAddBenefitInput = document.querySelector(".modal-benefits_input");
     
    
-   let options = []
+   let options = [];
    
    elAddBenefitInput.addEventListener("keyup", function(event){
      
@@ -167,26 +310,24 @@ for (let i = 0; i < products.length; i++) {
           }
         
         }
-        
       }
      }
       
     })
     
 
-
     elAddForm.addEventListener("submit", function (evt) {
       evt.preventDefault(); 
 
-    
       const choosedElements = evt.target.elements;
       
       const addTitleInput = choosedElements.title.value
       const addPriceInput = choosedElements.price.value
-      const addOptionInput = choosedElements.addManufacturer.value
-
+      const addOptionInput = +choosedElements.addManufacturer.value
+      
+      
+      
       if (addTitleInput.trim() && addPriceInput.trim()) {
-
 
 
       for (let i = 0; i < manufacturers.length; i++) {
@@ -199,15 +340,13 @@ for (let i = 0; i < products.length; i++) {
           const addProduct = {
               id: Math.floor(Math.random() * 1000),
               title: addTitleInput,
-              img: "https://picsum.photos/300/200",
+              img: "../img/iphone-ez.jpg",
               price: addPriceInput,
               model: currentManfactures.name,
               addedDate: new Date().toISOString(),
               benefits: options
           }
-           console.log(options);
-          
-          
+           
           const addedProduct = renderProduct(addProduct);
           elCardList.append(addedProduct)
           

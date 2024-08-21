@@ -13,7 +13,7 @@
     <div class="d-flex justify-content-between">
       <h1 class="h2">Gilos.uz/smartphones</h1>
 
-      <button class="btn btn-primary px-4" data-bs-toggle="modal" data-bs-target="#edit-student-modal">
+      <button class="btn btn-primary px-4" data-bs-toggle="modal" data-bs-target="#add-student-modal">
         <span class="me-2">Add product</span>
         <i class="fa-solid fa-plus"></i>
       </button>
@@ -60,58 +60,27 @@
         </form>
       </div>
 
-      <section class="col-9">
+      <section class="col-9" id="section">
         <div class="d-flex justify-content-between align-items-baseline">
           <h2 class="h4 mb-4">Products list</h2>
           <p>Count: 4</p>
         </div>
 
         <ul id="card-list" class="row list-unstyled g-3">
-          <li class="col-4">
-            <div class="card">
-              <img src="https://picsum.photos/300/200" alt="img" class="card-img-top">
-              <div class="card-body">
-                <h3 class="card-title">Gadget title</h3>
-                <p class="card-text fw-bold"><mark>2.000.000</mark></p>
-                <p class="card-text"><s>2.000.000</s></p>
-                <p class="badge bg-success">Xiaomi (gadget firmasi)</p>
 
-                <p class="card-text">12.05.2022</p>
-
-                <ul class="d-flex flex-wrap list-unstyled">
-                  <li class="badge bg-primary me-1 mb-1">8gb</li>
-
-                  <li class="badge bg-primary me-1 mb-1">128gb</li>
-
-                  <li class="badge bg-primary me-1 mb-1">Waterproof</li>
-                  
-                  <li class="badge bg-primary me-1 mb-1">Falon yaxshi tarafi</li>
-                </ul>
-
-                <div class="position-absolute top-0 end-0 d-flex">
-                  <button class="btn rounded-0 btn-secondary"><i class="fa-solid fa-pen"></i>
-                  </button>
-
-                  <button class="btn rounded-0 btn-danger"><i class="fa-solid fa-trash"></i>
-                  </button>
-                </div>
-
-              </div>
-            </div>
-          </li>
         </ul>
       </section>
     </div>
   </div>
 
 
-  <!-- //MODAL -->
+  <!-- //_ADD MODAL________ -->
 
-  <div class="modal fade add-modal" id="edit-student-modal" tabindex="-1" aria-labelledby="editStudentModalLabel" aria-hidden="true">
+  <div class="modal fade add-modal" id="add-student-modal" tabindex="-1" aria-labelledby="addStudentModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="editStudentModalLabel">Add product</h5>
+          <h5 class="modal-title" id="addStudentModalLabel">Add product</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -137,18 +106,7 @@
               <input type="text" class="form-control modal-benefits_input" id="benefits" placeholder="16gb ram">
 
               <ul class="d-flex flex-wrap list-unstyled mt-3" id="benefits-modal_list">
-                <!-- <li id="benefits-modal_item" class="me-1 mb-1">
-                  <button type="button" class="btn btn-sm badge rounded-pill btn-danger" id="benefits-modal_btn"></button>
-                </li>
-
-                <li id="benefits-modal_item" class="me-1 mb-1"><button type="button" class="btn btn-sm badge rounded-pill btn-danger" id="benefits-modal_btn"></button>
-                </li>
-
-                <li id="benefits-modal_item" class="me-1 mb-1"><button type="button" class="btn btn-sm badge rounded-pill btn-danger" id="benefits-modal_btn"></button>
-                </li>
-
-                <li id="benefits-modal_item" class="me-1 mb-1"><button type="button" class="btn btn-sm badge rounded-pill btn-danger" id="benefits-modal_btn"></button>
-                </li> -->
+               
               </ul>
             </div>
             <button type="submit" class="btn btn-primary d-block w-100 p-2">Add product</button>
@@ -158,6 +116,49 @@
     </div>
   </div>
 
+
+<!-- _________EDIT MODAL_______________________________ -->
+
+  <div class="modal fade edit-modal" id="edit-student-modal" tabindex="-1" aria-labelledby="editStudentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editStudentModalLabel">edit product</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="edit-form">
+            <div class="mb-3">
+              <label for="product-title" class="form-label">Title</label>
+              <input type="text" class="form-control" id="edit-title" placeholder="Falon telefon">
+              
+            </div>
+            <div class="mb-3">
+              <label for="price" class="form-label">Narxi</label>
+              <input type="number" class="form-control" id="edit-price" placeholder="12400000">
+            </div>
+            <div class="mb-3">
+              <label for="product-manufacturer" class="form-label">Manufacturer</label>
+              <select class="form-select" id="editManufacturer">
+                <option class="edit-option" selected disabled value="0">Select a manufacturer</option>
+                <!-- manufacturers array bu yerga kelishi kerak -->
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="benefits" class="form-label">Benefits</label>
+              <input type="text" class="form-control modal-benefits_input" id="edit-benefits" placeholder="16gb ram">
+
+              <ul class="d-flex flex-wrap list-unstyled mt-3" id="benefits-modal_list">
+               
+              </ul>
+            </div>
+            <button type="submit" class="btn btn-primary d-block w-100 p-2">edit product</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
   <script src="js/bootstrap.bundle.min.js"></script>
 
   <script src="js/data.js"></script>

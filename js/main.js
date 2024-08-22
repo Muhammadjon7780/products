@@ -31,12 +31,7 @@ const  showDate = function (dateString) {
   const date = new Date(dateString);
   return `${addZero(date.getDate())}.${addZero(date.getMonth() + 1)}.${addZero(date.getFullYear())}`;
 }
-       
-const renderCurrentProducts = function () {
-  products.forEach(currentProducts => {
-    renderProduct(currentProducts);
-  });
-}
+   
 
 
 const renderProduct = function (addProduct) {
@@ -80,7 +75,7 @@ productEditBtn.setAttribute("data-id", id);
 productEditBtn.append(productEditBtnIcon);
 productBtnWrap.append(productEditBtn);
 
-const productDelBtn = createElement("button", "btn rounded-0 btn-danger");
+const productDelBtn = createElement("button", "btn rounded-0 btn-danger btn-del");
 const productDelBtnIcon = createElement("i", "fa-solid fa-trash");
 productDelBtnIcon.style.pointerEvents = "none"
 
@@ -97,7 +92,7 @@ for (let i = 0; i < innerBenefits.length; i++) {
   const currentBenefit = innerBenefits[i];
   
   const productBenefitItem = createElement("li", "badge bg-primary me-1 mb-1", currentBenefit);
-
+  
   productBenefitList.append(productBenefitItem);
 }
 
@@ -114,138 +109,17 @@ elCardList.append(productItem);
 return productItem;
 } 
 
-//_____________________EDIT MODAL__________________________________________________
+let showingProducts = products;
 
-const elEditInputTitle = document.querySelector("#edit-title");
-const elEditInputPrice = document.querySelector("#edit-price");
-const elEditInputBenefits = document.querySelector("#edit-benefits");
+const renderCurrentProducts = function () {
+  elCardList.innerHTML = null;
+  showingProducts.forEach(currentProducts => {
+    renderProduct(currentProducts);
+  });
+}
 
-const elEditModal = document.querySelector(".edit-modal");
-const editModal = new bootstrap.Modal(elEditModal);
 
-const elEditForm = document.querySelector("#edit-form");
 
-elCardList.addEventListener("click", function (evt) {
-
-  if (evt.target.matches(".btn-danger")) {
-    
-    const clickedItemId = +evt.target.dataset.id;
-    
-    
-    const clickedItemIndex = products.findIndex(function(product) {
-      
-      return product.id == clickedItemId
-    })
-    
-
-    products.splice(clickedItemIndex, 1)
-    
-    elCardList.innerHTML = "";
-    
-    renderCurrentProducts()
-    
-  }
-  else if (evt.target.matches(".btn-secondary")) {
-    
-    
-    const clickedId = +evt.target.dataset.id;
-    
-    const clickedItem = products.find(function(product) {
-      
-      return product.id == clickedId
-    })
-    elEditForm.setAttribute("data-editing-id", clickedItem.id);
-    
-    const clickedEditIndex = products.findIndex(function(editProduct) {
-      return editProduct.id == clickedId
-    })
-    
-    productIdex.push(clickedEditIndex); 
-
-    elEditInputTitle.value = clickedItem.title 
-    elEditInputPrice.value = clickedItem.price;
-    elEditInputBenefits.value = clickedItem.benefits;
-   
-    //////////EDIT Manfactures///////////////////////
-    elEditManfactureSelect.innerHTML = null
-    
-    for (let i = 0; i < manufacturers.length; i++) {
-      
-      const currentManfactures = manufacturers[i];
-      
-      const manfacturesOptions = createElement("option", "", currentManfactures.name);
-      
-      manfacturesOptions.value = currentManfactures.id
-      elEditManfactureSelect.append(manfacturesOptions);
-
-      let editOptions = elEditManfactureSelect.options
-  
-      for (let i = 0; i < editOptions.length; i++) {
-  
-        const editelement = editOptions[i];
-  
-        if (editelement.textContent == clickedItem.model) {
-
-          editelement.setAttribute("selected","")
-          
-        }
-        }
-      }  
-      }
-      
-    })  
-    
-    
-//______________________EDIT FORM________________________________________________________________
-
-    elEditForm.addEventListener("submit", function (evt) {
-      evt.preventDefault();
-      
-      const clickedEditId = evt.target.dataset.editingId
-
-      const choosedOption = evt.target.elements;
-      const editOptionInput = +choosedOption.editManufacturer.value
-
-      const editTitleValue = elEditInputTitle.value;
-      const editPriceValue = +elEditInputPrice.value;
-      const editBenefitsValue = elEditInputBenefits.value.split(",").map(item => item.trim()).filter(item => item.length > 0);
-      
-      if (elEditInputTitle.value.trim() && elEditInputPrice.value.trim()) {
-
-      manufacturers.forEach(element => {
-        
-        if (editOptionInput == element.id) {
-          
-          const editProduct = {
-            id: clickedEditId,
-            title: editTitleValue,
-            img: "../img/iphone-ez.jpg",
-            price: editPriceValue,
-            model: element.name,
-            addedDate: new Date().toISOString(),
-            benefits: editBenefitsValue
-          }
-          
-          const editItemIndex = products.findIndex(function (editingProduct) {
-            return editingProduct.id == clickedEditId
-          })
-      
-          products.splice(editItemIndex, 1, editProduct);
-
-          elCardList.innerHTML = null;
-        
-          renderCurrentProducts();
-          }
-        });
-        
-        elAddBenefitList.innerHTML = null
-        productIdex = [];
-        editModal.hide();
-      }
-        
-      })
-   
-    
     renderCurrentProducts()
     
     
@@ -351,6 +225,7 @@ elCardList.addEventListener("click", function (evt) {
           elCardList.append(addedProduct)
           
           products.push(addProduct);
+          showingProducts.push(addProduct);
           
         }
       }
@@ -364,4 +239,178 @@ elCardList.addEventListener("click", function (evt) {
     })
  
 
+
+
+
+
+ //_____________________EDIT MODAL__________________________________________________
+
+ const elEditInputTitle = document.querySelector("#edit-title");
+ const elEditInputPrice = document.querySelector("#edit-price");
+ const elEditInputBenefits = document.querySelector("#edit-benefits");
+ 
+ const elEditModal = document.querySelector(".edit-modal");
+ const editModal = new bootstrap.Modal(elEditModal);
+ 
+ const elEditForm = document.querySelector("#edit-form")
+ 
+ 
+ elCardList.addEventListener("click", function (evt) {
+ 
+   if (evt.target.matches(".btn-danger")) { 
     
+     const clickedItemId = +evt.target.dataset.id;
+     
+     
+     const clickedItemIndex = products.findIndex(function(product) {
+       
+       return product.id == clickedItemId
+     });
+
+ 
+     showingProducts.splice(clickedItemIndex, 1);
+     products.splice(clickedItemIndex, 1);
+
+     
+     elCardList.innerHTML = null;
+     renderCurrentProducts();
+     
+   }
+   else if (evt.target.matches(".btn-secondary")) {
+     
+     
+     const clickedId = +evt.target.dataset.id;
+     
+     const clickedItem = products.find(function(product) {
+       
+       return product.id == clickedId
+     })
+ 
+     elEditForm.setAttribute("data-editing-id", clickedItem.id);
+ 
+ 
+     elEditInputTitle.value = clickedItem.title 
+     elEditInputPrice.value = clickedItem.price;
+     elEditInputBenefits.value = clickedItem.benefits;
+    
+     //////////EDIT Manfactures///////////////////////
+     elEditManfactureSelect.innerHTML = null;
+     
+     for (let i = 0; i < manufacturers.length; i++) {
+       
+       const currentManfactures = manufacturers[i];
+       
+       const manfacturesOptions = createElement("option", "", currentManfactures.name);
+       
+       manfacturesOptions.value = currentManfactures.id
+       elEditManfactureSelect.append(manfacturesOptions);
+ 
+       let editOptions = elEditManfactureSelect.options
+   
+       for (let i = 0; i < editOptions.length; i++) {
+   
+         const editelement = editOptions[i];
+   
+         if (editelement.textContent == clickedItem.model) {
+ 
+           editelement.setAttribute("selected", "")
+           
+         }
+         }
+       }  
+       }
+       
+     })  
+     
+
+
+     //______________________EDIT FORM________________________________________________________________
+    
+ elEditForm.addEventListener("submit", function (evt) {
+  evt.preventDefault();
+  
+  const clickedEditId = evt.target.dataset.editingId
+
+  const choosedOption = evt.target.elements;
+  const editOptionInput = +choosedOption.editManufacturer.value
+
+  const editTitleValue = elEditInputTitle.value;
+  const editPriceValue = +elEditInputPrice.value;
+  const editBenefitsValue = elEditInputBenefits.value.split(",").map(item => item.trim()).filter(item => item.length > 0);
+  
+  if (elEditInputTitle.value.trim() && elEditInputPrice.value.trim()) {
+
+  manufacturers.forEach(element => {
+    
+    if (editOptionInput == element.id) {
+      
+      const editProduct = {
+        id: clickedEditId,
+        title: editTitleValue,
+        img: "../img/iphone-ez.jpg",
+        price: editPriceValue,
+        model: element.name,
+        addedDate: new Date().toISOString(),
+        benefits: editBenefitsValue
+      }
+      console.log(clickedEditId);
+      
+      
+      const editItemIndex = products.findIndex(function (editingProduct) {
+        return editingProduct.id == clickedEditId
+      })
+  
+      products.splice(editItemIndex, 1, editProduct);
+      showingProducts.splice(editItemIndex, 1, editProduct);
+      
+    }
+  })
+  
+  elAddBenefitList.innerHTML = null;
+  elEditForm.reset();
+  editModal.hide();
+  elCardList.innerHTML = null;
+  renderCurrentProducts();
+  } 
+  })
+
+
+
+    // ____________________________FILTER______________________
+
+
+    const formFilter = document.querySelector("#filter-form");
+    const filterFrom = document.querySelector("#from");
+    const filterTo = document.querySelector("#to");
+    const filterSearch = document.querySelector("#search");
+
+    formFilter.addEventListener("submit", function (evt) {
+      evt.preventDefault();
+
+      const choosedElements = evt.target.elements;
+
+      const fromValue = +choosedElements.from.value
+      const toValue = choosedElements.to.value
+      const searchValue = choosedElements.search.value
+    
+      showingProducts = products.filter(function (product) {
+  
+        const productPrice = product.price
+        const toMarkCondition = !toValue ? true : productPrice <= toValue;
+        const searchRegExp = new RegExp(searchValue, "gi");
+        return productPrice >= fromValue && toMarkCondition && product.title.match(searchRegExp);
+        
+      })
+      elCardList.innerHTML = null;
+      
+      renderCurrentProducts();
+      
+    })
+      
+ 
+
+
+
+
+
+  

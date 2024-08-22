@@ -52,3 +52,22 @@ const manufacturers = [
     name: "Samsung"
   }
 ];
+
+
+
+
+   //   const filterProduct = products.filter(function (product) {
+    //     const productPrice = product.price;
+    //     return productPrice >= fromValue
+
+    //   }).filter(function (product) {
+    //     const productPrice = product.price
+    //       return !toValue ? true : productPrice <= toValue;
+
+    //   }).filter(function (product) {
+    //     const searchRegExp = new RegExp(searchValue, "gi");
+    //     return product.title.match(searchRegExp);
+    //   })
+      
+      
+    //   renderCurrentProducts(filterProduct);

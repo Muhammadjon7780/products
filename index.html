@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zurumbia</title>
+  <title>gilos_uz</title>
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <!-- <script src="https://kit.fontawesome.com/1a052ad93a.js" crossorigin="anonymous"></script> -->
 </head>
@@ -53,6 +53,7 @@
               <option value="1">Name</option>
               <option value="2">Price: to lowest</option>
               <option value="3">Price: to highest</option>
+              <option value="4">Mark date</option>
             </select>
           </div>
 
@@ -63,7 +64,7 @@
       <section class="col-9" id="section">
         <div class="d-flex justify-content-between align-items-baseline">
           <h2 class="h4 mb-4">Products list</h2>
-          <p>Count: 4</p>
+          <p class="count">Count: 4</p>
         </div>
 
         <ul id="card-list" class="row list-unstyled g-3">
@@ -159,6 +160,49 @@
       </div>
     </div>
   </div>
+
+  
+<template id="product-template">
+  
+  <li class="col-4">
+  <div class="card product-card">
+    <img class="card-img-top product-img" src="">
+    <div class="card-body card-product">
+      <h3 class="card-title product-title"></h3>
+
+      <p class="card-text fw-bold product-sale_price">
+        <mark class="sale-price"></mark>
+      </p>
+
+      <p class="card-text product-old_price">
+        <s class="old-price"></s>
+      </p>
+
+      <p class="badge bg-success badge-product"></p>
+      <p class="card-text product-date"></p>
+
+      <ul class="d-flex flex-wrap list-unstyled mt-3 benefits-list">
+        <!-- <li class="badge bg-primary me-1 mb-1"></li>
+        <li class="badge bg-primary me-1 mb-1"></li>
+        <li class="badge bg-primary me-1 mb-1"></li> -->
+      </ul>
+
+
+      <div class="position-absolute top-0 end-0 d-flex button-wrap">
+        <button class="btn rounded-0 btn-secondary edit-btn" data-bs-toggle="modal" data-bs-target="#edit-student-modal">
+          <i class="fa-solid fa-pen" style="pointer-events: none;"></i>
+        </button>
+
+        <button class="btn rounded-0 btn-danger btn-del">
+          <i class="fa-solid fa-trash" style="pointer-events: none;"></i>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</li>
+</template>
+
   <script src="js/bootstrap.bundle.min.js"></script>
 
   <script src="js/data.js"></script>

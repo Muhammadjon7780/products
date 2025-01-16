@@ -184,7 +184,7 @@ const elAddForm = document.querySelector("#add-form");
          
          elAddBenefitInput.value = "";
          
-         elAddBenefitList.innerHTML = null
+         elAddBenefitList.innerHTML = null;
          
          
          for (let i = 0; i < options.length; i++) {
@@ -226,9 +226,11 @@ const elAddForm = document.querySelector("#add-form");
 
       const choosedElements = evt.target.elements;
       
-      const addTitleInput = choosedElements.title.value
+      const addTitleInput = choosedElements.title.value;
+      
       const addPriceInput = choosedElements.price.value
       const addOptionInput = +choosedElements.addManufacturer.value
+      console.log(addOptionInput);
       
       
       
@@ -257,7 +259,7 @@ const elAddForm = document.querySelector("#add-form");
           // elCardList.append(addedProduct)
           
           products.push(addProduct);
-          localStorage.setItem("products", JSON.stringify(products));
+          // localStorage.setItem("products", JSON.stringify(products));
           showingProducts.push(addProduct);
           renderCurrentProducts()
           
@@ -288,11 +290,16 @@ const elAddForm = document.querySelector("#add-form");
  
  const elEditForm = document.querySelector("#edit-form")
  
+
  
- elCardList.addEventListener("click", function (evt) {
- 
+
+elCardList.addEventListener("click", (evt) => {
+
+
    if (evt.target.matches(".btn-del")) { 
     
+
+
      const clickedItemId = +evt.target.dataset.id;
      
      
@@ -369,6 +376,7 @@ const elAddForm = document.querySelector("#add-form");
   evt.preventDefault();
   
   const clickedEditId = evt.target.dataset.editingId;
+  console.log(clickedEditId);
 
   const choosedOption = evt.target.elements;
   const editOptionInput = +choosedOption.editManufacturer.value;
@@ -401,7 +409,7 @@ const elAddForm = document.querySelector("#add-form");
       })
 
       products.splice(editItemIndex, 1, editProduct);
-      localStorage.setItem("products", JSON.stringify(products));
+      // localStorage.setItem("products", JSON.stringify(products));
 
       const editShowItemIndex = showingProducts.findIndex(function (editingProduct) {
         return editingProduct.id == clickedEditId

@@ -1,4 +1,6 @@
-const products = localStorage.getItem("products") ? JSON.parse(localStorage.getItem("products")) : [
+// const products = localStorage.getItem("products") ? JSON.parse(localStorage.getItem("products")) : [
+
+const products = [
   {
     id: 123,
     title: "Redmi Note 10 Pro",
